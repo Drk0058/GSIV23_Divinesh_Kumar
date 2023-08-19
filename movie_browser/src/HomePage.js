@@ -48,7 +48,7 @@ const HomePage = () => {
         <div className="page-content">
             <div className="top-bar">
                 <Link to="/" className="home-link">
-                    <HomeIcon className="home-icon" />
+                    <HomeIcon sx={{color : 'black'}} className="home-icon" />
                 </Link>
                 <form onSubmit={handleSearch}>
                     <div className="search-input-container">
