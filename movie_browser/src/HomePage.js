@@ -2,32 +2,58 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link } from 'react-router-dom';
-import TopBar from './TopBar';
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
     fetchMovies();
-  }, [page]);
+  }, [page, searchQuery, searching]);
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=b98cd8e259390d3353384955710c4862&language=en-US&page=${page}`
-      );
+      let apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=b98cd8e259390d3353384955710c4862&language=en-US&page=${page}`;
+
+      if (searchQuery && searching) {
+        apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=b98cd8e259390d3353384955710c4862&language=en-US&page=${page}&query=${searchQuery}`;
+      }
+
+      const response = await axios.get(apiUrl);
       const data = response.data;
-      setMovies((prevMovies) => [...prevMovies, ...data.results]);
+      if (page === 1 || searching) {
+        setMovies(data.results);
+      } else {
+        setMovies((prevMovies) => [...prevMovies, ...data.results]);
+      }
       setTotalPages(data.total_pages);
     } catch (error) {
       console.error('Error fetching movies:', error);
     }
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setMovies([]); 
+    setPage(1); 
+    setSearching(true); 
+  };
+
   return (
     <div className="page-content">
+      <div className="search-bar">
+        <form onSubmit={handleSearch}>
+          <input
+            type="text"
+            placeholder="Search movies..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </form>
+      </div>
       <InfiniteScroll
         dataLength={movies.length}
         next={() => setPage(page + 1)}

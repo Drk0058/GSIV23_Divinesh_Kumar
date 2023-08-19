@@ -4,44 +4,42 @@ body {
   padding: 0;
 }
 
-.top-bar {
-  background-color: #333;
-  color: white;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.home-link {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
+.page-content {
+  padding: 20px;
 }
 
 .search-bar {
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
 }
 
-input[type="text"] {
-  padding: 5px;
+.search-bar form {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input[type="text"] {
+  padding: 8px;
   margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
 }
 
-button[type="submit"] {
-  background-color: transparent;
+.search-bar button[type="submit"] {
+  background-color: #333;
+  color: white;
   border: none;
   cursor: pointer;
-  color: white;
-  font-size: 18px;
+  padding: 8px 16px;
+  border-radius: 5px;
 }
 
 .movie-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 20px;
-  padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -53,7 +51,6 @@ button[type="submit"] {
   text-align: center;
   text-decoration: none;
   color: black;
-  max-width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -69,5 +66,20 @@ button[type="submit"] {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.top-bar {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
 }
 
