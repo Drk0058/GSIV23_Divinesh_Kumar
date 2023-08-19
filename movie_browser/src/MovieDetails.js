@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import TopBar from './TopBar';
+import MovieDetailsTopBar from './MovieDetailsTopBar';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -43,6 +43,7 @@ const MovieDetails = () => {
 
   return (
     <div className="page-content">
+      <MovieDetailsTopBar />
       <div className="movie-details">
         <h2>{movie.title}</h2>
         <p>Rating: {movie.vote_average}</p>
