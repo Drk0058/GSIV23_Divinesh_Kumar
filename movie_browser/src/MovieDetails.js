@@ -7,6 +7,7 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
+  const [director, setDirector] = useState('');
   const [runtime, setRuntime] = useState('');
 
   useEffect(() => {
@@ -27,12 +28,17 @@ const MovieDetails = () => {
 
       setMovie(movieData);
       setCast(castData);
+      setDirector(getDirector(movieData.credits.crew));
       setRuntime(movieData.runtime);
     } catch (error) {
       console.error('Error fetching movie details:', error);
     }
   };
 
+  const getDirector = (crew) => {
+    const director = crew.find(member => member.job === 'Director');
+    return director ? director.name : '';
+  };
   if (!movie) {
     return (
       <div className="page-content">
@@ -40,21 +46,23 @@ const MovieDetails = () => {
       </div>
     );
   }
-
   return (
     <div className="page-content">
       <MovieDetailsTopBar />
       <div className="movie-details">
-        <h2>{movie.title}</h2>
-        <p>Rating: {movie.vote_average}</p>
-        <p>Runtime: {runtime} minutes</p>
-        <h3>Cast:</h3>
-        <ul>
-          {cast.map((actor) => (
-            <li key={actor.id}>{actor.name}</li>
-          ))}
-        </ul>
-        <p>{movie.overview}</p>
+        <img
+          src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+          alt={movie.title}
+          className="movie-poster"
+        />
+        <div className='movie-info-compolete'>
+          <div className='movie-title-details'><span>{movie.title} </span>
+          <div className='movie-rating-details'>({movie.vote_average})</div>
+          </div>
+          <div className='movie-yld'>{movie.release_date.split('-')[0]} | {runtime} minutes | Director: {director}</div>
+          <div className='movie-cast'>Cast: {cast[0].name},{cast.length > 1 ? cast[1].name : ''}{cast.length > 2 ? ',...' : ''}</div>
+          <div className='movie-description'>Description: {movie.overview}</div>
+        </div>
       </div>
     </div>
   );
