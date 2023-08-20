@@ -24,11 +24,11 @@ const MovieDetails = () => {
       );
 
       const movieData = movieResponse.data;
-      const castData = castResponse.data.cast.slice(0, 5); // Get the first 5 cast members
+      const castData = castResponse.data.cast.slice(0, 3); // Get the first 5 cast members
 
       setMovie(movieData);
       setCast(castData);
-      setDirector(getDirector(movieData.credits.crew));
+      setDirector(getDirector(castResponse.data.crew));
       setRuntime(movieData.runtime);
     } catch (error) {
       console.error('Error fetching movie details:', error);
@@ -36,7 +36,8 @@ const MovieDetails = () => {
   };
 
   const getDirector = (crew) => {
-    const director = crew.find(member => member.job === 'Director');
+    const director = crew.find(member => member.job === "Director");
+    console.log(director);
     return director ? director.name : '';
   };
   if (!movie) {
@@ -59,7 +60,7 @@ const MovieDetails = () => {
           <div className='movie-title-details'><span>{movie.title} </span>
           <div className='movie-rating-details'>({movie.vote_average})</div>
           </div>
-          <div className='movie-yld'>{movie.release_date.split('-')[0]} | {runtime} minutes | Director: {director}</div>
+          <div className='movie-yld'>{movie.release_date.split('-')[0]} | {parseInt(movie.runtime/60)}:{movie.runtime%60} | Director: {director}</div>
           <div className='movie-cast'>Cast: {cast[0].name},{cast.length > 1 ? cast[1].name : ''}{cast.length > 2 ? ',...' : ''}</div>
           <div className='movie-description'>Description: {movie.overview}</div>
         </div>
